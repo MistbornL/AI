@@ -1,17 +1,17 @@
 from threading import Timer
 
 
-def mood_checker(total, mood):
-    if total <= 70:
-        mood == "bored"
-    elif total == 80:
-        mood == "normal"
-    elif total > 80:
-        mood == "happy"
+def mood_checker(audience):
+    if audience.total <= 70:
+        audience.mood = "bored"
+    elif audience.total == 80:
+        audience.mood = "normal"
+    elif audience.total > 80:
+        audience.mood = "happy"
 
 
 def timeout(limit: int, message):
-    t = Timer(limit, print, ["you ruined the show"])
+    t = Timer(limit, print, ["you are ruining the show"])
     t.start()
     prompt = f"You have {limit} seconds to choose the correct answer...: "
     answer = input(prompt)
@@ -20,7 +20,7 @@ def timeout(limit: int, message):
         t.cancel()
     else:
         audience.total -= 10
-        mood_checker(audience.total, audience.mood)
+        mood_checker(audience)
         print(f"you are ruining the show, \n total:{audience.total} \n mood:{audience.mood}")
         t.cancel()
 
@@ -38,15 +38,15 @@ class Orchestra:
         timeout(3, f"{self.strings} started playing")
 
     def command_strings_stop(self):
-        print(f"self{conductor} gives sign to stop for {self.strings}")
+        print(f"{self.conductor} gives sign to stop for {self.strings}")
         timeout(3, f"{self.strings} stoped playing")
 
     def command_percusion_start(self):
-        print(f"self{conductor} gives beat to {self.percusion}")
+        print(f"{self.conductor} gives beat to {self.percusion}")
         timeout(3, f"{self.percusion} started playing")
 
     def command_percusion_stop(self):
-        print(f"self{conductor} gives beat to {self.percusion}")
+        print(f"{self.conductor} gives beat to {self.percusion}")
         timeout(3, f"{self.percusion} stoped playing")
 
 
@@ -59,3 +59,5 @@ class Audience:
 audience = Audience(100, "normal")
 conductor = Orchestra("lasha", "violin", "cello", "strings", "drums")
 conductor.command_strings_start()
+conductor.command_percusion_start()
+conductor.command_percusion_stop()
